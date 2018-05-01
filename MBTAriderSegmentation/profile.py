@@ -6,6 +6,7 @@ import re
 from datetime import datetime
 
 from MBTAriderSegmentation.config import *
+from MBTAriderSegmentation.report import ReportGenerator
 
 class CensusFormatter:
     """
@@ -497,8 +498,9 @@ class ClusterProfiler:
         profile = profile.merge(pca_df, on='cluster', how='inner')
 
         # generating reports
-#         print("generating reports...")
-#         profile['report'] = ReportGenerator(profile, self.start_month, self.duration).generate_report()
+        print("generating reports...")
+        cnn_model_filename = DATA_PATH + REPORT_PATH + 'report_cnn.h5'
+        profile = ReportGenerator(cnn_model_filename=cnn_model_filename).generate_report(profile)
 
         print("saving results...")
         self.__save_profile(profile, algorithm, by_cluster)
