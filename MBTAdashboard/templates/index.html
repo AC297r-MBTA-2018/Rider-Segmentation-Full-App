@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>MBTA Rider Segmentation Dashboard</title>
+
+    <!-- css and library imports -->
+    <link rel="stylesheet" href="./static/lib/css/tether.min.css">
+    <link rel="stylesheet" href="./static/lib/css//bootstrap.min.css">
+    <link rel="stylesheet" href="./static/lib/css//bootstrap-grid.min.css">
+    <link rel="stylesheet" href="./static/lib/css//bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="./static/lib/css/keen-dashboards.css">
+    <link rel="stylesheet" href="./static/lib/css/leaflet.css">
+    <link rel="stylesheet" href="./static/lib/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="./static/css/custom.css">
+
+    <script src="./static/lib/js/tether.min.js"></script>
+    <script type="text/javascript" src="./static/lib/js/jquery-3.3.1.min.js"></script>
+</head>
+
+<body class="application">
+    {% include 'includes/_navbar.html' %}
+    <div class="container-fluid dashboard-body">
+        {% include 'includes/_toolbar.html' %}
+        <div id='dashboard-content'>
+            <!-- First row -->
+            <div class="row">
+                <!-- Cluster Overview Chart -->
+                <div class="col-sm-4">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            <p>Clusters 2D-View</p>
+                        </div>
+                        <div class="chart-stage">
+                            <div id="pca-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cluster Overview Chart -->
+
+                <!-- Cluster Simple Stat Chart -->
+                <div class="col-sm-4">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            <p>Cluster Simple Statistics</p>
+                            <div id="simple-stat-data-selection"></div>
+                        </div>
+                        <div class="chart-stage">
+                            <div id="simple-stat-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cluster Simple Stat Chart -->
+
+                <!-- Cluster Description Chart -->
+                <div class="col-sm-4">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            <p>Cluster Description</p>
+                        </div>
+                        <div class="chart-stage">
+                            <div id="description-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Cluster Description Chart -->
+
+            </div>
+            <!-- End of first row -->
+
+
+
+            <!-- Second row -->
+            <div class="row">
+                <!-- Temporal Pattern Chart -->
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            <p>Temporal Pattern Chart</p>
+                        </div>
+                        <div class="chart-stage">
+                            <div id="temporal-chart"></div>
+                            <div id="temporal-legend"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Temporal Pattern Chart -->
+
+                <!-- Map Chart -->
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            <p>Geographical Pattern Chart</p>
+                            <div id="geo-data-selection"></div>
+                        </div>
+                        <div class="chart-stage">
+                            <div id="geographical-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Map Chart -->
+
+            </div>
+            <!-- End of Second row -->
+
+            <!-- Third row -->
+            <div class="row">
+
+                <!-- Purchase Pattern Chart -->
+                <div class="col-sm-12">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            <p>Ticket Purchasing Pattern Charts</p>
+                            <div id="purchase_chart-selector"></div>
+                            <div id="purchase_view-selector"></div>
+                        </div>
+                        <div class="chart-stage">
+                            <div id="purchase-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Purchase Pattern Chart -->
+            </div>
+            <!-- End Third row -->
+
+            <!-- Fourth row -->
+            <div class="row">
+                <!-- Basic Demographics Chart -->
+                <div class="col-sm-12">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            <p>Basic Demographics - Race, Education, Income</p>
+                            <div id="basic_demographics_chart-selector"></div>
+                            <div id="basic_demographics_view-selector"></div>
+                        </div>
+                        <div class="chart-stage">
+                            <div id="basic_demographics-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Basic Demographics Chart -->
+            </div>
+            <!-- End Fourth row -->
+        </div>
+
+
+
+    </div>
+
+    <script src="./static/lib/js/bootstrap.min.js"></script>
+    <script src="./static/lib/js/underscore-min.js"></script>
+    <script src="./static/lib/js/d3.min.js"></script>
+    <script src="./static/lib/js/d3-tip.js"></script>
+    <script src="./static/lib/js/d3pie.min.js"></script>
+    <script src="./static/lib/js/queue.js"></script>
+    <script src="./static/lib/js/leaflet.js"></script>
+    <script src="./static/lib/js/leaflet-heat.js"></script>
+    <script src="./static/lib/js/keen.min.js"></script>
+    <script src='./static/js/clusterPCAVis.js' type='text/javascript'></script>
+    <script src='./static/js/clusterSimpleStatVis.js' type='text/javascript'></script>
+    <script src='./static/js/clusterReport.js' type='text/javascript'></script>
+    <script src='./static/js/hourlyHeatmap.js' type='text/javascript'></script>
+    <script src='./static/js/temporalPatternVis.js' type='text/javascript'></script>
+    <script src='./static/js/clusterDonutChart.js' type='text/javascript'></script>
+    <script src='./static/js/groupDonutChart.js' type='text/javascript'></script>
+    <script src='./static/js/stackedORGroupedBarChart.js' type='text/javascript'></script>
+    <script src='./static/js/multiStackedBarChart.js' type='text/javascript'></script>
+    <script src='./static/js/groupDistributionVis.js' type='text/javascript'></script>
+    <script src='./static/js/bostonMap.js' type='text/javascript'></script>
+    <script src='./static/js/main.js' type='text/javascript'></script>
+    <script src='./static/js/app.js' type='text/javascript'></script>
+</body>
+
+</html>

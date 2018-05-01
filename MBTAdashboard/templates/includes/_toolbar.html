@@ -1,0 +1,60 @@
+<div class="btn-toolbar toolbar pt-2 pb-2 m-0 justify-content-center" role="toolbar" aria-label="Segmentation toolbar">
+    <form id="req-form" class="form-inline">
+        <label class="input-group-prepend p-2 toolbar-text toolbar-text-bold" for="view-selection">Data Selection: </label>
+        <div class="input-group" role="group" aria-label="View Selector">
+            <label class="input-group-prepend input-group-addon m-0 p-2 toolbar-text" for="view-selection">View </label>
+            <select class="custom-select toolbar-text m-0 p-2" id="view-selection">
+                <option selected value="overview">Overview</option>
+                <option value="hierarchical">Hierarchical Clusters</option>
+                <option value="non-hierarchical">Non-Hierarchical Clusters</option>
+            </select>
+        </div>
+
+        <div class="input-group" role="group" aria-label="Start Month Selector">
+            <label class="input-group-prepend input-group-addon m-0 p-2 toolbar-text" for="month-selection">Start Month </label>
+            <select class="custom-select toolbar-text m-0 p-2 pr-4" id="month-selection">
+                <option value="1612">Dec 2016</option>
+                <option value="1701">Jan 2017</option>
+                <option value="1702">Feb 2017</option>
+                <option value="1703">Mar 2017</option>
+                <option value="1704">Apr 2017</option>
+                <option value="1705">May 2017</option>
+                <option value="1706">Jun 2017</option>
+                <option value="1707">Jul 2017</option>
+                <option value="1708">Aug 2017</option>
+                <option value="1709">Sep 2017</option>
+                <option selected value="1710">Oct 2017</option>
+                <option value="1711">Nov 2017</option>
+            </select>
+        </div>
+
+        <div class="input-group" role="group" aria-label="Duration Selector">
+            <label class="input-group-prepend input-group-addon ml-2 p-2 toolbar-text" for="duration-selection">Duration </label>
+            <select class="custom-select toolbar-text" id="duration-selection">
+                <option selected value="1">1 month</option>
+                <option disabled value="3">3 months</option>
+            </select>
+        </div>
+
+        <div class="input-group" role="group" aria-label="Time Weight Selector">
+            <label class="input-group-prepend input-group-addon ml-2 p-2 toolbar-text" for="time-weight-selection">Time Weight </label>
+            <select class="custom-select toolbar-text" id="time-weight-selection">
+                <option selected value="0">0</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="75">75</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+
+        <div class="input-group" role="group" aria-label="Algorithm Selector">
+            <label class="input-group-prepend input-group-addon ml-2 p-2 toolbar-text" for="algorithm-selection">Algorithm </label>
+            <select class="custom-select toolbar-text" id="algorithm-selection">
+                <option selected value="lda">LDA</option>
+                <option value="kmeans">Kmeans</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary-style toolbar-text" id="btn-recluster">View!</button>
+    </form>
+</div>
