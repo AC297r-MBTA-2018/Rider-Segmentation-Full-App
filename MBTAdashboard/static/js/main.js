@@ -24,6 +24,7 @@ function createVis(error, jsonData) {
         console.log("this is from initial view");
         // get the clusters into an array
         clusters = Object.keys(jsonData).map(function(key) {return jsonData[key];});
+        console.log("data:")
         console.log(clusters);
         // get different types of patterns
         temporal_data = clusters.map(function(d){return d.temporal_patterns;});
@@ -40,11 +41,6 @@ function createVis(error, jsonData) {
         race_data = clusters.map(function(d){return d.race;});
         edu_data = clusters.map(function(d){return d.edu;});
         income_data = clusters.map(function(d){return d.income;});
-        // agesex_data = clusters.map(function(d){return d.agesex;});
-        // poverty_data = clusters.map(function(d){return d.pov;});
-        // unemployment_data = clusters.map(function(d){return d.emp;});
-        // household_stat_data = clusters.map(function(d){return d.hstat;});
-        // housing_unit_data = clusters.map(function(d){return d.hu;});
 
         // report
 
@@ -54,7 +50,8 @@ function createVis(error, jsonData) {
         // Graph
         clusterpcaVis = new ClusterPCAVis("pca-chart", viz_data, colors2);
         clusterstatVis = new ClusterSimpleStatVis("simple-stat-chart", "simple-stat-data-selection", clust_info_data, colors3);
-        timePatternVis = new TemporalPatternChart("temporal-chart", temporal_data, ["Overview"], temporal_data.length, colors);
+        timePatternVis = new TemporalPatternChart("temporal-chart", temporal_data, ["Overview"], temporal_data.length, colors)
+        timeLegend = new TemporalLegend("temporal-legend", temporal_data, colors);
         geoPatternVis = new BostonMap("geographical-chart", geographical_data, 0, colors);
         purchaseVis = new GroupDistributionChart("purchase-chart", "purchase_chart-selector", "purchase_view-selector",
                             [usertype_data, tariff_data, servicebrand_data], ["User Type", "Tariff Type", "Servicebrand"], 3, 0, colors);

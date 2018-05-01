@@ -89,6 +89,8 @@ function call_back(response) {
     // $("#description-chart").empty();
     // $("#description-chart").text(report_data);
     // update temporal pattern chart
+    $("#temporal-legend").empty();
+    timeLegend = new TemporalLegend("temporal-legend", temporal_data, colors)
     $("#temporal-chart").empty();
     timePatternVisTitleList = [];
     temporal_data.map(function(d, i) {

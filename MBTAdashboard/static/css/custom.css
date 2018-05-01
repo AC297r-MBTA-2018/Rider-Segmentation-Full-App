@@ -66,6 +66,10 @@ input.backend-control {
 }
 
 /* Temporal chart */
+#temporal-chart{
+    height: 490px;
+}
+
 .timeLabel, .dayLabel{
     font-size: 9px;
 }
@@ -86,17 +90,16 @@ input.backend-control {
     width: 2%;
 }
 /* Geographical chart */
-#geographical-chart{ height: 400px; }
+#geographical-chart{ height: 490px; }
 
 .tooltip {
   position: absolute;
   text-align: center;
-  width: 60px;
-  height: 12px;
-  padding: 8px;
-  margin-top: -20px;
+  width: 100px;
+  border-radius: 3px;
+  padding: 5px;
   font: 10px sans-serif;
-  color: black;
-  background: #ddd;
-  pointer-events: none;
+  color: #fff;
+  background: rgba(38, 38, 38, 0.8);
+
 }

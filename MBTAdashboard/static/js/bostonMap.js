@@ -133,17 +133,17 @@ BostonMap.prototype.appendDataSelector = function() {
 	// reappend selector
 	if (vis.view){ // view by_cluster
 	 	var html_str = '<form class="form-inline ml-2 mr-2" role="group" id="geo-cluster-selector">' +
-		'<label class="form-label p-2" for="geo-cluster-selector">View type: </label>' +
+		'<label class="form-label p-2" for="geo-cluster-selector">View cluster: </label>' +
 				'<div class="form-check">' +
 				'<input class="form-check-input" name="overview" type="radio" id="geo-cluster-0" value="0" checked="checked"' +
-				'<label class="form-check-label" for="geo-cluster-0"> Cluster 0 </label>' +
+				'<label class="form-check-label" for="geo-cluster-0"> 0 </label>' +
 				'</div>';
 
 		// append a radio button for each cluster
 		for (var i = 1; i < vis.data.length; i++){
 			var newSelectsionsHTML = '<div class="form-check ml-2 mr-2">' +
 			'<input class="form-check-input" name="overview" type="radio" id="geo-cluter_' + i + '" value= "' + i + '"' +
-			'<label class="form-checl-label" for="geo-overview"> Cluster ' + i + ' </label>' +
+			'<label class="form-checl-label" for="geo-overview">' + i + ' </label>' +
 			'</div>'
 			html_str += newSelectsionsHTML;
 		}
@@ -153,7 +153,7 @@ BostonMap.prototype.appendDataSelector = function() {
 	}
 	else { // view overview
 		p.innerHTML = '<form class="form-inline ml-2 mr-2" role="group" id="geo-cluster-selector">' +
-		'<label class="form-label p-2" for="geo-cluster-selector">View type: </label>' +
+		'<label class="form-label p-2" for="geo-cluster-selector">View: </label>' +
 				'<div class="form-check">' +
 				'<input class="form-check-input" name="overview" type="radio" id="geo-overview" checked="checked"' +
 				'<label class="form-check-label" for="geo-overview"> Overview </label>' +

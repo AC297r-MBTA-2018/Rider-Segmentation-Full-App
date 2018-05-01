@@ -21,7 +21,7 @@ from MBTAriderSegmentation.profile import ClusterProfiler
 def _get_profile_path(start_month, duration):
     start = datetime.strptime(start_month, "%y%m").strftime("%Y-%b")
     if int(duration) > 1:
-        end = datetime.strptime(str(int(start_month) + duration-1), "%y%m").strftime("%Y-%b")
+        end = datetime.strptime(str(int(start_month) + duration - 1), "%y%m").strftime("%Y-%b")
         profile_path = DATA_PATH + PROFILE_PATH + start + '_to_' + end + '/'
 
     else:
@@ -211,8 +211,7 @@ def _rename_group_labels(frontend_data):
     """
     renamed = deepcopy(frontend_data)
     group_rename_dict = {
-        'race': {'asn': 'Asian', 'blk': 'Black', 'hisp': 'Hispanic', 'isld': 'Islander',
-                 'ntv': 'Native', 'othr': 'Other', 'two': 'Two', 'wht': 'White'},
+        'race': {'asn': 'Asian', 'blk': 'Black', 'hisp': 'Hispanic', 'othr': 'Other', 'wht': 'White'},
         'agesex': {'f_br0': 'Female Age 0-9', 'f_br1': 'Female Age 10-19', 'f_br2': 'Female Age 20-29',
                    'f_br3': 'Female Age 30-39', 'f_br4': 'Female Age 40-49', 'f_br5': 'Female Age 50-59',
                    'f_br6': 'Female Age 60-69', 'f_br7': 'Female Age 70+', 'm_br0': 'Male Age 0-9',
@@ -224,8 +223,8 @@ def _rename_group_labels(frontend_data):
                        'demo_med_income': 'Median House Income', 'demo_pop': 'Population',
                        'demo_pop_16': 'Population over 16 (Labor Force)', 'demo_pop_25': 'Population over 25',
                        'size': 'Size'},
-        'edu': {'bd': 'Bachelor Degree', 'gd': 'Graduate Degree', 'hs': 'High School',
-                'sc': 'Some College', 'nd': 'No Degree'},
+        'edu': {'bd': '4: Bachelor', 'gd': '5: Graduate', 'hs': '2: High School',
+                'sc': '3: Some College', 'nd': '1: No Degree'},
         'emp': {'employed': 'Employed', 'unemployed': 'Unemployed'},
         'hstat': {'fam': 'Family Households', 'mcf': 'Married Couple Families',
                   'mcf_nchild': 'Married Coule Families - No Children',
@@ -236,9 +235,9 @@ def _rename_group_labels(frontend_data):
                   'spf_nchild': 'Single Parent Families - No Children',
                   'spf_ychild': 'Single Parent Families - With Children'},
         'hu': {'occ_hh': 'Occupied Households', 'unocc': 'Unoccupied Households'},
-        'income': {'br0': 'Less than $24,999', 'br1': '$25,000 to $49,999', 'br2': '$50,000 to $74,999',
-                   'br3': '$75,000 to $99,999', 'br4': '$100,000 to $149,999', 'br5': '$150,000 to $199,999',
-                   'br6': '$200,000 or more'},
+        'income': {'br0': '1: <$25K', 'br1': '2: $25K-$50K', 'br2': '3: $50K-$75K',
+                   'br3': '4: $75K-$100K', 'br4': '5: $100K-$150K', 'br5': '6: $150K-$200K',
+                   'br6': '7: $200K+'},
         'pov': {'fam_in_pov': 'Families in Poverty', 'fam_not_in_pov': 'Families Not in Poverty'}}
     for cluster, info in frontend_data.items():
         for item, groups in info.items():
@@ -269,6 +268,27 @@ def get_backend_data(view='overview', start_month='1710', duration='1',
     except FileNotFoundError:
         print("Recluster....")
         backend_data = None
+
+    # collapse some groups for better visualization e.g. usertype should only have adult, student, senior/TAP and others
+    usertype_cols = [col for col in backend_data.columns if "usertype_" in col]
+    usertype_to_keep = ['usertype_Adult', 'usertype_Senior', 'usertype_Senior/TAP', 'usertype_Student']
+
+    race_cols = [col for col in backend_data.columns if "race_" in col]
+    race_to_keep = ['race_asn', 'race_blk', 'race_hisp', 'race_wht']
+
+    # usertype keep: adult, student, senior + senior/TAP, others
+    usertype_to_collapse = [col for col in usertype_cols if col not in usertype_to_keep]
+    usertype_othr = backend_data[usertype_to_collapse].sum(axis=1)
+    usertype_seniors_TAP = backend_data['usertype_Senior'] + backend_data['usertype_Senior/TAP']  # add senior and senior/TAP
+    backend_data.drop(['usertype_Senior', 'usertype_Senior/TAP'] + usertype_to_collapse, axis=1, inplace=True)
+    backend_data['usertype_Others'] = usertype_othr
+    backend_data['usertype_Senior/TAP'] = usertype_seniors_TAP
+
+    # race keep: white, black, hispanic, asian, others
+    race_to_collapse = [col for col in race_cols if col not in race_to_keep]
+    race_othr = backend_data[race_to_collapse].sum(axis=1)
+    backend_data.drop(race_to_collapse, axis=1, inplace=True)
+    backend_data['race_othr'] = race_othr
 
     return backend_data
 

@@ -75,7 +75,7 @@ GroupDonutChart.prototype.wrangleData = function() {
 
 GroupDonutChart.prototype.updateVis = function() {
     var vis = this;
-    
+
     // draw a donut chart for each item in vis.displayData
     vis.displayData.forEach(function(d, i) {
         var newParentElement = vis.prefix + '_' + i;
@@ -110,17 +110,17 @@ GroupDonutChart.prototype.appendDataSelector = function() {
     // append selector
     if (vis.view) { // view by_cluster
         var html_str = '<form class="form-inline" role="group" id="' + vis.selectorPrefix + '-cluster-selector">' +
-        '<label class="form-label p-2" for="' + vis.selectorPrefix + '-cluster-selector">View type: </label>' +
+        '<label class="form-label p-2" for="' + vis.selectorPrefix + '-cluster-selector">View cluster: </label>' +
             '<div class="form-check">' +
             '<input class="form-check-input" name="clusterview" type="radio" id="' + vis.selectorPrefix + '-cluster-0" value="0" checked="checked"' +
-            '<label class="form-check-label" for="' + vis.selectorPrefix + '-cluster-0"> Cluster 0 </label>' +
+            '<label class="form-check-label" for="' + vis.selectorPrefix + '-cluster-0"> 0 </label>' +
             '</div>';
 
         // append a radio button for each cluster
         for (var i = 1; i < vis.nCluster; i++) {
             var selectsionsHTML = '<div class="form-check ml-2 mr-2">' +
                 '<input class="form-check-input" name="clusterview" type="radio" id="' + vis.selectorPrefix + '-cluter-' + i + '" value= "' + i + '"' +
-                '<label class="form-checl-label" for="' + vis.selectorPrefix + '-clusterview"> Cluster ' + i + ' </label>' +
+                '<label class="form-checl-label" for="' + vis.selectorPrefix + '-clusterview"> ' + i + ' </label>' +
                 '</div>'
             html_str += selectsionsHTML;
         }
@@ -129,7 +129,7 @@ GroupDonutChart.prototype.appendDataSelector = function() {
 
     } else { // view overview
         p.innerHTML = '<form class="form-inline ml-2 mr-2" role="group" id="' + vis.selectorPrefix + '-cluster-selector">' +
-            '<label class="form-label p-2" for="' + vis.selectorPrefix + '-cluster-selector">View type: </label>' +
+            '<label class="form-label p-2" for="' + vis.selectorPrefix + '-cluster-selector">View: </label>' +
             '<div class="form-check">' +
             '<input class="form-check-input" name="overview" type="radio" id="' + vis.selectorPrefix + '-overview" checked="checked"' +
             '<label class="form-check-label" for="' + vis.selectorPrefix + '-overview"> Overview </label>' +

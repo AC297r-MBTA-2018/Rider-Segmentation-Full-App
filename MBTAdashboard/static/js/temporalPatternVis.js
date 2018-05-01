@@ -7,7 +7,7 @@
  *  @param _showLegend          -- whether to show legend
  */
 
-TemporalPatternChart = function(_parentElement, _data, _titleList, _nGraph, _colors, _showLegend = true) {
+TemporalPatternChart = function(_parentElement, _data, _titleList, _nGraph, _colors) {
     this.nGraph = _nGraph;
     this.titleList = _titleList;
     this.nGraphPerSlide = 6;
@@ -22,7 +22,6 @@ TemporalPatternChart = function(_parentElement, _data, _titleList, _nGraph, _col
             return e.value;
         });
     }));
-    this.showLegend = _showLegend;
     this.initVis();
 }
 
@@ -44,7 +43,7 @@ TemporalPatternChart.prototype.initVis = function() {
     } else {
         vis.width = 500;
     }
-    vis.height = 500 - vis.margin.top - vis.margin.bottom;
+    vis.height = 800 - vis.margin.top - vis.margin.bottom;
 
     document.getElementById(vis.parentElement)
         .setAttribute("style", "height: " + vis.height + ";");
@@ -123,7 +122,7 @@ TemporalPatternChart.prototype.drawHeatmaps = function() {
     if (vis.nCarouselSlide === 0) {
         for (i = 0; i < vis.nGraphPerSlide; i++) {
             if (numDrawnGraph < vis.nGraph) {
-                var heatmapVis = new HourlyHeatmap("heatmap" + i + "_carousel" + 0, vis.data[numDrawnGraph], vis.titleList[numDrawnGraph], vis.colors, vis.maxSaturation, vis.showLegend);
+                var heatmapVis = new HourlyHeatmap("heatmap" + i + "_carousel" + 0, vis.data[numDrawnGraph], vis.titleList[numDrawnGraph], vis.colors, vis.maxSaturation);
                 numDrawnGraph += 1;
             }
         }
@@ -131,7 +130,7 @@ TemporalPatternChart.prototype.drawHeatmaps = function() {
         for (j = 0; j < vis.nCarouselSlide; j++) {
             for (i = 0; i < vis.nGraphPerSlide; i++) {
                 if (numDrawnGraph < vis.nGraph) {
-                    var heatmapVis = new HourlyHeatmap("heatmap" + i + "_carousel" + j, vis.data[numDrawnGraph], vis.titleList[numDrawnGraph], vis.colors, vis.maxSaturation, vis.showLegend);
+                    var heatmapVis = new HourlyHeatmap("heatmap" + i + "_carousel" + j, vis.data[numDrawnGraph], vis.titleList[numDrawnGraph], vis.colors, vis.maxSaturation);
                     numDrawnGraph += 1;
                 }
             }

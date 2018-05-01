@@ -86,17 +86,9 @@ StackedORGroupedBarChart.prototype.initVis = function() {
         .text(vis.titleText);
 
     // Prep the tooltip bits, initial display is hidden
-    // vis.tooltip = d3.tip()
-    //     .attr("class", "d3-tip")
-    //     .offset([0, 0]);
-
-    // Prep the tooltip bits, initial display is hidden
     vis.tooltip = d3.select("#" + vis.parentElement).append("div")
         .attr("class", "tooltip")
         .style("opacity", "0");
-    // vis.tooltip = vis.svg.append("g")
-    //     .attr("class", "tooltip")
-    //     .style("display", "none");
 
     vis.wrangleData();
 
@@ -114,8 +106,6 @@ StackedORGroupedBarChart.prototype.initVis = function() {
 StackedORGroupedBarChart.prototype.wrangleData = function() {
     var vis = this;
     vis.displayData = vis.data;
-
-    // console.log(vis.displayData);
     vis.layers = vis.stack(vis.displayData); // calculate the stack layout
 
     vis.layers.forEach(function(d, i) { //adding keys to every datapoint
@@ -172,18 +162,17 @@ StackedORGroupedBarChart.prototype.updateVis = function() {
         vis.tooltip.transition()
             .duration(200)
             .style("opacity", 1.0);
-        vis.tooltip .html(d.c + ":" +"</br>"+ Math.round(d3.round(d.y, -2)) + " (DALYs)")   //Math.round(d3.round(d.y, -6))
+        vis.tooltip.html(d.group + ":  " + vis.formatFloat(d[1] - d[0]) + "%")
             .style("left", xPosition + "px")
-            .style("top", (yPosition - 20) + "px")
-            //.style("border-color", colors[colors.length-1-i] )
+            .style("top", (yPosition) + "px")
       }).on("mousemove", function(d) {
         var xPosition = d3.mouse(this)[0];
         var yPosition = d3.mouse(this)[1];
         vis.tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-        vis.tooltip .html(d.c + ":" +"</br>"+ Math.round(d3.round(d.y, -2)) + " (DALYs)") //Math.round(d3.round(d.y, -6))
-            .style("left", (xPosition - 35) + "px")  
-            .style("top", (yPosition - 35) + "px")
-            //.style("border-color", colors[colors.length-1-i] ) possible to set colors based on mouseover box?
+
+        vis.tooltip.html(d.group + ":  " + vis.formatFloat(d[1] - d[0]) + "%")
+            .style("left", (xPosition) + "px")
+            .style("top", (yPosition) + "px")
             .attr("transform", "translate(" + xPosition + "," + yPosition + ")");
       })
       .on("mouseout", function(d) {
@@ -191,11 +180,6 @@ StackedORGroupedBarChart.prototype.updateVis = function() {
                 .duration(500)
                 .style("opacity", 0);
       });
-        // .on("mouseover", vis.mouseover())
-        // .on("mousemove", function(d) {
-        //     vis.mousemove(d)
-        // })
-        // .on("mouseout", vis.mouseout());;
 
     vis.rect.transition()
         .delay(function(d, i) {
@@ -234,6 +218,7 @@ StackedORGroupedBarChart.prototype.updateVis = function() {
         .attr("y", 9)
         .attr("dy", ".35em")
         .style("text-anchor", "end")
+        .style("font-size", "14px")
         .text(function(d) {
             return d;
         });
@@ -281,21 +266,4 @@ StackedORGroupedBarChart.prototype.transitionStacked = function() {
             return vis.x(d.cluster);
         })
         .attr("width", vis.x.bandwidth());
-}
-StackedORGroupedBarChart.prototype.mouseover = function() {
-    var vis = this;
-    vis.tooltip.style("display", "inline");
-}
-StackedORGroupedBarChart.prototype.mousemove = function(d) {
-    var vis = this;
-    // console.log(d.group + ": " + vis.formatFloat(d[1] - d[0]) + "%");
-    // console.log(vis.tooltip);
-    vis.tooltip.text(d.group + ":  " + vis.formatFloat(d[1] - d[0]) + "%")
-        .style("display", "inline")
-        .style("left", (d3.event.pageX - 34) + "px")
-        .style("top", (d3.event.pageY - 12) + "px");
-}
-StackedORGroupedBarChart.prototype.mouseout = function(d) {
-    var vis = this;
-    vis.tooltip.style("display", "none");
 }

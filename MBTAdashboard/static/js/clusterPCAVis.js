@@ -64,9 +64,12 @@ ClusterPCAVis.prototype.initVis = function() {
     .style("text-anchor", "middle")
     .text("Visualizing in PCA Subspace");
 
-    vis.wrangleData();
+    // Prep the tooltip bits, initial display is hidden
+    vis.tooltip = d3.select("#" + vis.parentElement).append("div")
+        .attr("class", "tooltip")
+        .style("opacity", "0");
 
-    // Listen to events
+    vis.wrangleData();
 }
 
 /*
@@ -133,7 +136,31 @@ ClusterPCAVis.prototype.updateVis = function() {
     .attr('cy', function(d){ return vis.yScale(d.pca2); })
     .attr('r', function(d){ return vis.radius(d.size); })
     .style('fill', function(d){ return vis.colorScale(d.grp); })
-    .style('opacity', 0.65);
+    .style('opacity', 0.65)
+    .on("mouseover", function(d, i) {
+    var xPosition = d3.mouse(this)[0];
+    var yPosition = d3.mouse(this)[1];
+    vis.tooltip.transition()
+        .duration(200)
+        .style("opacity", 1.0);
+    vis.tooltip.html("Cluster " + i)
+        .style("left", xPosition + "px")
+        .style("top", (yPosition) + "px")
+  }).on("mousemove", function(d, i) {
+    var xPosition = d3.mouse(this)[0];
+    var yPosition = d3.mouse(this)[1];
+    vis.tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+
+    vis.tooltip.html("Cluster " + i)
+        .style("left", (xPosition) + "px")
+        .style("top", (yPosition) + "px")
+        .attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+  })
+  .on("mouseout", function(d) {
+        vis.tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+  });
 
     vis.bubble.append('title')
         .attr('x', function(d){ return vis.radius(d.size); })
@@ -146,7 +173,7 @@ ClusterPCAVis.prototype.updateVis = function() {
         .attr('x', 10)
         .attr('y', 10)
         .attr('class', 'label')
-        .text('PCA Component 2');
+        .text('PCA 2');
 
 
     vis.svg.append('text')
@@ -154,7 +181,7 @@ ClusterPCAVis.prototype.updateVis = function() {
         .attr('y', vis.height - 10)
         .attr('text-anchor', 'end')
         .attr('class', 'label')
-        .text('PCA Component 1');
+        .text('PCA 1');
 
     vis.legend = vis.svg.selectAll('legend')
     			.data(vis.colorScale.domain())
@@ -177,5 +204,19 @@ ClusterPCAVis.prototype.updateVis = function() {
 		.attr('y', 9)
 		.attr('dy', '.35em')
 		.style('text-anchor', 'end')
-		.text(function(d){ return d; });
+        .style('font-size', '14px')
+		.text(function(d){
+        if (d === 0){
+            return 'overview';
+        }
+        else if (d === 1){
+            return '<20 trips/month group';
+        }
+        else if (d === 2){
+            return '>20 trips/month group';
+        }
+        else {
+            return 'others'
+        }
+    });
 }

@@ -4,10 +4,11 @@
  *  @param _data            -- array of data
  */
 
-ClusterReport = function(_parentElement, _data) {
+ClusterReport = function(_parentElement, _data, _view=false) {
     this.$graphicContainer = $("#" + _parentElement);
     this.parentElement = _parentElement;
     this.data = _data;
+    this.view = _view;
     this.duration = 1000;
 
     this.initVis();
