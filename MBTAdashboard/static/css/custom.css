@@ -56,15 +56,19 @@
     color: #ffffff;
     }
 
-input.backend-control {
-    width: 50px !important;
-}
 
 /* Dashboard content */
 #dashboard-content > .row {
     padding: 8px;
 }
 
+/* report  */
+#description-chart{
+    height: 370px;
+    font-size: 14px;
+    color: #808080;
+    padding: 100px 40px;
+}
 /* Temporal chart */
 #temporal-chart{
     height: 490px;
@@ -89,6 +93,7 @@ input.backend-control {
 .carousel-control-next, .carousel-control-prev {
     width: 2%;
 }
+
 /* Geographical chart */
 #geographical-chart{ height: 490px; }
 

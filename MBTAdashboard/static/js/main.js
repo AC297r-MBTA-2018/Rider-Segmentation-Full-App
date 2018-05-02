@@ -43,13 +43,12 @@ function createVis(error, jsonData) {
         income_data = clusters.map(function(d){return d.income;});
 
         // report
-
-        // report_data = clusters.map(function(d){return d.report});
-        // $("#description-chart").text(report_data);
+        report_data = clusters.map(function(d){return d.report});
 
         // Graph
         clusterpcaVis = new ClusterPCAVis("pca-chart", viz_data, colors2);
         clusterstatVis = new ClusterSimpleStatVis("simple-stat-chart", "simple-stat-data-selection", clust_info_data, colors3);
+        clusterReport = new ClusterReport("description-chart", "description-data-selection", report_data);
         timePatternVis = new TemporalPatternChart("temporal-chart", temporal_data, ["Overview"], temporal_data.length, colors)
         timeLegend = new TemporalLegend("temporal-legend", temporal_data, colors);
         geoPatternVis = new BostonMap("geographical-chart", geographical_data, 0, colors);

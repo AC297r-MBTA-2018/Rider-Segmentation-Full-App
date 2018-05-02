@@ -272,7 +272,6 @@ def get_backend_data(view='overview', start_month='1710', duration='1',
     # collapse some groups for better visualization e.g. usertype should only have adult, student, senior/TAP and others
     usertype_cols = [col for col in backend_data.columns if "usertype_" in col]
     usertype_to_keep = ['usertype_Adult', 'usertype_Senior', 'usertype_Senior/TAP', 'usertype_Student']
-
     race_cols = [col for col in backend_data.columns if "race_" in col]
     race_to_keep = ['race_asn', 'race_blk', 'race_hisp', 'race_wht']
 
@@ -281,14 +280,16 @@ def get_backend_data(view='overview', start_month='1710', duration='1',
     usertype_othr = backend_data[usertype_to_collapse].sum(axis=1)
     usertype_seniors_TAP = backend_data['usertype_Senior'] + backend_data['usertype_Senior/TAP']  # add senior and senior/TAP
     backend_data.drop(['usertype_Senior', 'usertype_Senior/TAP'] + usertype_to_collapse, axis=1, inplace=True)
-    backend_data['usertype_Others'] = usertype_othr
-    backend_data['usertype_Senior/TAP'] = usertype_seniors_TAP
+    idx_to_insert = backend_data.columns.get_loc("usertype_Adult")
+    backend_data.insert(loc=idx_to_insert, column='usertype_Others', value=usertype_othr)
+    backend_data.insert(loc=idx_to_insert, column='usertype_Senior/TAP', value=usertype_seniors_TAP)
 
     # race keep: white, black, hispanic, asian, others
     race_to_collapse = [col for col in race_cols if col not in race_to_keep]
     race_othr = backend_data[race_to_collapse].sum(axis=1)
     backend_data.drop(race_to_collapse, axis=1, inplace=True)
-    backend_data['race_othr'] = race_othr
+    idx_to_insert = backend_data.columns.get_loc("race_asn")
+    backend_data.insert(loc=idx_to_insert, column='race_othr', value=race_othr)
 
     return backend_data
 
@@ -296,8 +297,8 @@ def get_frontend_data(backend_data):
     """
     """
     vis_params = _get_vis_params(backend_data=backend_data)
-    data_matrix = backend_data.values
-    # data_matrix = backend_data.drop(['report'], axis=1).values
+    # data_matrix = backend_data.values
+    data_matrix = backend_data.drop(['report', 'rider_type'], axis=1).values
     # format temporal patterns
     time_data = _format_time_patterns(vis_params['day'], vis_params['hour'],
                                       vis_params['hr_cols_idx'], data_matrix)
@@ -321,7 +322,7 @@ def get_frontend_data(backend_data):
         frontend_data[str(cluster_id)] = cluster_data
     # append temporal and geo data
     for i, (cluster_id, cluster_data) in enumerate(frontend_data.items()):
-        # cluster_data['report'] = backend_data.loc[i, 'report']
+        cluster_data['report'] = backend_data.loc[i, 'report']
         cluster_data['temporal_patterns'] = time_data[int(i)]
         cluster_data['geographical_patterns'] = geo_data[int(i)]
 

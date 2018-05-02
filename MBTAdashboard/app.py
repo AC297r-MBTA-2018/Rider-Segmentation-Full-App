@@ -17,9 +17,13 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/report')
-def test_page():
-    return render_template('Generative_report.html')
+@app.route('/documentation')
+def documentation():
+    return render_template('documentation.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route('/initialize_data')
 def initialize_view():

@@ -86,9 +86,9 @@ StackedORGroupedBarChart.prototype.initVis = function() {
         .text(vis.titleText);
 
     // Prep the tooltip bits, initial display is hidden
-    vis.tooltip = d3.select("#" + vis.parentElement).append("div")
-        .attr("class", "tooltip")
-        .style("opacity", "0");
+vis.tooltip = d3.select("#" + vis.parentElement).append("div")
+    .attr("class", "tooltip")
+    .style("opacity", "0");
 
     vis.wrangleData();
 

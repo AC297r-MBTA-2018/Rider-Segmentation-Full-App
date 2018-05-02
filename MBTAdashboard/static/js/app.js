@@ -66,15 +66,15 @@ function call_back(response) {
     race_data = clusters.map(function(d) {
         return d.race;
     });
-    // agesex_data = clusters.map(function(d) {
-    //     return d.agesex;
-    // });
     edu_data = clusters.map(function(d) {
         return d.edu;
     });
     income_data = clusters.map(function(d) {
         return d.income;
     });
+
+    // report
+    report_data = clusters.map(function(d){return d.report});
 
     if (USER_CONTROLS.VIEW === 'overview') {
         USER_CONTROLS.VIEW_BY_CLUSTER = false;
@@ -86,8 +86,8 @@ function call_back(response) {
     clusterpcaVis = new ClusterPCAVis("pca-chart", viz_data, colors2, USER_CONTROLS.VIEW_BY_CLUSTER);
     $("#simple-stat-chart").empty();
     clusterstatVis = new ClusterSimpleStatVis("simple-stat-chart", "simple-stat-data-selection", clust_info_data, colors3, USER_CONTROLS.VIEW_BY_CLUSTER);
-    // $("#description-chart").empty();
-    // $("#description-chart").text(report_data);
+    $("#description-chart").empty();
+    clusterReport = new ClusterReport("description-chart", "description-data-selection", report_data, USER_CONTROLS.VIEW_BY_CLUSTER);
     // update temporal pattern chart
     $("#temporal-legend").empty();
     timeLegend = new TemporalLegend("temporal-legend", temporal_data, colors)

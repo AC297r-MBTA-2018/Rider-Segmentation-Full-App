@@ -23,8 +23,8 @@ ClusterSimpleStatVis = function(_parentElement, _selectorParentElement, _data, _
  */
 ClusterSimpleStatVis.prototype.initVis = function() {
     var vis = this;
-    console.log(vis.data);
     vis.appendDataSelector();
+    vis.formatFloat = d3.format(",.2f");
     vis.margin = {
         top: 50,
         right: 30,
@@ -65,6 +65,11 @@ ClusterSimpleStatVis.prototype.initVis = function() {
 
     vis.selection = 'Size'; // initial selection is to show cluster size
 
+    // Prep the tooltip bits, initial display is hidden
+    vis.tooltip = d3.select("#" + vis.parentElement).append("div")
+        .attr("class", "tooltip")
+        .style("opacity", "0");
+
     vis.wrangleData();
 
     // Listen to view change events
@@ -84,7 +89,6 @@ ClusterSimpleStatVis.prototype.wrangleData = function() {
 
 ClusterSimpleStatVis.prototype.updateVis = function() {
     var vis = this;
-
 
     vis.x.domain(vis.displayData.map(function(d, i) {
             return i;
@@ -113,6 +117,42 @@ ClusterSimpleStatVis.prototype.updateVis = function() {
         })
         .style('fill', vis.colors)
         .style('opacity', 0.8)
+        .on("mouseover", function(d) {
+            var xPosition = d3.mouse(this)[0];
+            var yPosition = d3.mouse(this)[1];
+            vis.tooltip.transition()
+                .duration(200)
+                .style("opacity", 1.0);
+            vis.tooltip.html(function(e) {
+                    if (vis.selection === 'Average # of Trips') {
+                        return vis.selection + ":  " + vis.formatFloat(d);
+                    } else {
+                        return vis.selection + ":  " + d;
+                    }
+                })
+                .style("left", xPosition + "px")
+                .style("top", (yPosition) + "px")
+        }).on("mousemove", function(d) {
+            var xPosition = d3.mouse(this)[0];
+            var yPosition = d3.mouse(this)[1];
+            vis.tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+
+            vis.tooltip.html(function(e) {
+                    if (vis.selection === 'Average # of Trips') {
+                        return vis.selection + ": " + vis.formatFloat(d);
+                    } else {
+                        return vis.selection + ":  " + d;
+                    }
+                })
+                .style("left", (xPosition) + "px")
+                .style("top", (yPosition) + "px")
+                .attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+        })
+        .on("mouseout", function(d) {
+            vis.tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        })
         .merge(vis.bars)
         .transition().duration(vis.duration)
         .ease(d3.easeLinear)
@@ -136,18 +176,18 @@ ClusterSimpleStatVis.prototype.updateVis = function() {
     // update the axis
     vis.svg.select(".x-axis")
         .transition()
-        .duration(vis.duration/3)
+        .duration(vis.duration / 3)
         .ease(d3.easeLinear)
         .call(vis.xAxis);
 
     vis.svg.select(".y-axis")
         .transition()
-        .duration(vis.duration/3)
+        .duration(vis.duration / 3)
         .ease(d3.easeLinear)
         .call(vis.yAxis)
 
     vis.svg.select(".y-axis .axis-label")
-    .append("text")
+        .append("text")
         .attr("class", "axis-label")
         .style("text-anchor", "end")
         .text(function() {
