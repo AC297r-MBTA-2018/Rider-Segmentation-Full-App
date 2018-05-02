@@ -25,22 +25,11 @@ COLORMAP = 'Paired'  # colormap
 
 # rider type mapping for generative report
 RIDER_LABEL_DICT = {
-    0: 'random rider',
-    1: 'weekend rider',
-    2: 'normal commuter',
-    3: 'early commuter',
-    4: 'normal flexible commuter',
-    5: 'early flexible commuter',
-    6: 'weekend rider who also rides over weekdays'
-}
-
-# weekday mapping
-DAY_DICT = {
-    0: 'Mon',
-    1: 'Tue',
-    2: 'Wed',
-    3: 'Thu',
-    4: 'Fri',
-    5: 'Sat',
-    6: 'Sun',
+    0: 'random riders',
+    1: 'weekend riders',
+    2: 'less flexible commuters with normal commute hours',
+    3: 'less flexible commuters with early commute hours',
+    4: 'more flexible commuters with normal commute hours',
+    5: 'more flexible commuters with early commute hours',
+    6: 'weekend riders who also ride over weekdays'
 }
