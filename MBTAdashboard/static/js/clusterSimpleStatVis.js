@@ -59,7 +59,7 @@ ClusterSimpleStatVis.prototype.initVis = function() {
 
     vis.yAxislabel = vis.svg.append("text")
     .attr('x', 20)
-    .attr('y', -10)
+    .attr('y', -15)
     .attr("class", "y-axis-label")
         .style("text-anchor", "end");
 
