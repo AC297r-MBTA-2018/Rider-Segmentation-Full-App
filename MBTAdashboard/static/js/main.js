@@ -1,7 +1,8 @@
 // Driver to initialize the loading page
-var colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"]; // alternatively colorbrewer.YlGnBu[9]
-var colors2 = ["#edf8b1", "#7fcdbb","#225ea8","#081d58"]; // alternatively colorbrewer.YlGnBu[9]
-var colors3 = ["#7fcdbb"]
+var colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
+var colors2 = ["#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#081d58"]; 
+var colors3 = ["#7fcdbb","#225ea8"]; // alternatively colorbrewer.YlGnBu[9]
+var colors4 = ["#7fcdbb"]
 var temporal_data;
 var geographical_data;
 var clusters;
@@ -46,16 +47,16 @@ function createVis(error, jsonData) {
         report_data = clusters.map(function(d){return d.report});
 
         // Graph
-        clusterpcaVis = new ClusterPCAVis("pca-chart", viz_data, colors2);
-        clusterstatVis = new ClusterSimpleStatVis("simple-stat-chart", "simple-stat-data-selection", clust_info_data, colors3);
+        clusterpcaVis = new ClusterPCAVis("pca-chart", viz_data, colors3);
+        clusterstatVis = new ClusterSimpleStatVis("simple-stat-chart", "simple-stat-data-selection", clust_info_data, colors4);
         clusterReport = new ClusterReport("description-chart", "description-data-selection", report_data);
         timePatternVis = new TemporalPatternChart("temporal-chart", temporal_data, ["Overview"], temporal_data.length, colors)
         timeLegend = new TemporalLegend("temporal-legend", temporal_data, colors);
         geoPatternVis = new BostonMap("geographical-chart", geographical_data, 0, colors);
         purchaseVis = new GroupDistributionChart("purchase-chart", "purchase_chart-selector", "purchase_view-selector",
-                            [usertype_data, tariff_data, servicebrand_data], ["User Type", "Tariff Type", "Servicebrand"], 3, 0, colors);
+                            [usertype_data, tariff_data, servicebrand_data], ["User Type", "Tariff Type", "Servicebrand"], 3, 0, colors2);
         basicDemographicsVis = new GroupDistributionChart("basic_demographics-chart", "basic_demographics_chart-selector",
                         "basic_demographics_view-selector", [race_data, edu_data, income_data],
-                        ["Race", "Education", "Income"], 3, 0, colors);
+                        ["Race", "Education", "Income"], 3, 0, colors2);
     }
 };

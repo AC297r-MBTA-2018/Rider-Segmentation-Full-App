@@ -83,9 +83,9 @@ function call_back(response) {
     }
 
     $("#pca-chart").empty();
-    clusterpcaVis = new ClusterPCAVis("pca-chart", viz_data, colors2, USER_CONTROLS.VIEW_BY_CLUSTER);
+    clusterpcaVis = new ClusterPCAVis("pca-chart", viz_data, colors3, USER_CONTROLS.VIEW_BY_CLUSTER);
     $("#simple-stat-chart").empty();
-    clusterstatVis = new ClusterSimpleStatVis("simple-stat-chart", "simple-stat-data-selection", clust_info_data, colors3, USER_CONTROLS.VIEW_BY_CLUSTER);
+    clusterstatVis = new ClusterSimpleStatVis("simple-stat-chart", "simple-stat-data-selection", clust_info_data, colors4, USER_CONTROLS.VIEW_BY_CLUSTER);
     $("#description-chart").empty();
     clusterReport = new ClusterReport("description-chart", "description-data-selection", report_data, USER_CONTROLS.VIEW_BY_CLUSTER);
     // update temporal pattern chart
@@ -105,12 +105,12 @@ function call_back(response) {
     // update purchase pattern
     $('#purchase-chart').empty();
     // purchaseVis = new GroupDonutChart("purchase-chart", "purchase-data-selection", [usertype_data, tariff_data], ["User Type", "Tariff Type"], 2, 0, colors, USER_CONTROLS.VIEW);
-    purchaseVis = new GroupDistributionChart("purchase-chart", "purchase_chart-selector", "purchase_view-selector", [usertype_data, tariff_data, servicebrand_data], ["User Type", "Tariff Type", "Servicebrand"], 3, 0, colors, USER_CONTROLS.VIEW_BY_CLUSTER);
+    purchaseVis = new GroupDistributionChart("purchase-chart", "purchase_chart-selector", "purchase_view-selector", [usertype_data, tariff_data, servicebrand_data], ["User Type", "Tariff Type", "Servicebrand"], 3, 0, colors2, USER_CONTROLS.VIEW_BY_CLUSTER);
 
     // update basic demographics Charts
     $('#basic_demographics-chart').empty();
     basicDemographicsVis = new GroupDistributionChart("basic_demographics-chart", "basic_demographics_chart-selector",
-        "basic_demographics_view-selector", [race_data, edu_data, income_data], ["Race", "Education", "Income"], 3, 0, colors, USER_CONTROLS.VIEW_BY_CLUSTER);
+        "basic_demographics_view-selector", [race_data, edu_data, income_data], ["Race", "Education", "Income"], 3, 0, colors2, USER_CONTROLS.VIEW_BY_CLUSTER);
 }
 
 // Listen to user input
