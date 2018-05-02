@@ -328,3 +328,16 @@ def get_frontend_data(backend_data):
 
     frontend_data = _rename_group_labels(frontend_data)
     return frontend_data
+
+# view = 'non-hierarchical'
+# start_month = '1710'
+# duration = '1'
+# time_weight = '0'
+# algorithm = 'kmeans'
+# filename = 'non-hierarchical_1710_kmeans.json'
+#
+# backend_data = get_backend_data(view=view, start_month=start_month, duration=duration,
+#                                 time_weight=time_weight, algorithm=algorithm)
+# frontend_data = get_frontend_data(backend_data=backend_data)
+# with open(filename, 'w') as fp:
+#     json.dump(frontend_data, fp)
