@@ -29,7 +29,7 @@ ClusterSimpleStatVis.prototype.initVis = function() {
         top: 50,
         right: 30,
         bottom: 50,
-        left: 100
+        left: 70
     };
 
     if ($("#" + vis.parentElement).width() - vis.margin.right - vis.margin.left > 300) {
@@ -121,7 +121,7 @@ ClusterSimpleStatVis.prototype.updateVis = function() {
                 return "# of Riders";
             }
             else {
-                return "Avg # of Trips"
+                return "Avg # Trips"
             }
         });
 
