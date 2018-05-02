@@ -179,8 +179,8 @@ ClusterPCAVis.prototype.updateVis = function() {
     vis.svg.append('text')
         .attr('x', vis.width)
         .attr('y', vis.height - 10)
-        .attr('text-anchor', 'end')
         .attr('class', 'label')
+        .style('text-anchor', 'end')
         .text('PCA 1');
 
     vis.legend = vis.svg.selectAll('legend')

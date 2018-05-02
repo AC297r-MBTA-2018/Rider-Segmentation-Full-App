@@ -29,7 +29,7 @@ ClusterSimpleStatVis.prototype.initVis = function() {
         top: 50,
         right: 30,
         bottom: 50,
-        left: 100
+        left: 70
     };
 
     if ($("#" + vis.parentElement).width() - vis.margin.right - vis.margin.left > 300) {
@@ -51,6 +51,17 @@ ClusterSimpleStatVis.prototype.initVis = function() {
 
     vis.y = d3.scaleLinear()
         .range([vis.height, 0]);
+
+    vis.xAxislabel = vis.svg.append("text")
+        .attr("class", "x-axis-label")
+        .attr("x", (vis.width/2 - 20))
+        .attr("y", (vis.height + 40));
+
+    vis.yAxislabel = vis.svg.append("text")
+    .attr('x', 20)
+    .attr('y', -15)
+    .attr("class", "y-axis-label")
+        .style("text-anchor", "end");
 
     vis.xAxis = d3.axisBottom(vis.x);
 
@@ -99,6 +110,20 @@ ClusterSimpleStatVis.prototype.updateVis = function() {
     vis.y.domain([0, d3.max(vis.displayData, function(d) {
         return d;
     })]);
+
+    //Create title
+    vis.svg.select(".x-axis-label")
+        .text("Cluster");
+
+    vis.svg.select(".y-axis-label")
+        .text(function(){
+            if (vis.selection === "Size"){
+                return "# of Riders";
+            }
+            else {
+                return "Avg # Trips"
+            }
+        });
 
     vis.bars = vis.svg.selectAll(".bar")
         .data(vis.displayData);
@@ -186,22 +211,22 @@ ClusterSimpleStatVis.prototype.updateVis = function() {
         .ease(d3.easeLinear)
         .call(vis.yAxis)
 
-    vis.svg.select(".y-axis .axis-label")
-        .append("text")
-        .attr("class", "axis-label")
-        .style("text-anchor", "end")
-        .text(function() {
-            if (vis.selection == "size") {
-                return "# of People in Cluster";
-            } else if (vis.selection == "avg_num_trips") {
-                return "Avg # of Trips";
-            }
-        })
-        .attr("fill", "#000")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -70)
-        .attr("x", 20)
-        .attr("dy", "1em");
+    // vis.svg.select(".y-axis .axis-label")
+    //     .append("text")
+    //     .attr("class", "axis-label")
+    //     .style("text-anchor", "end")
+    //     .text(function() {
+    //         if (vis.selection == "size") {
+    //             return "# of People in Cluster";
+    //         } else if (vis.selection == "avg_num_trips") {
+    //             return "Avg # of Trips";
+    //         }
+    //     })
+    //     .attr("fill", "#000")
+    //     .attr("transform", "rotate(-90)")
+    //     .attr("y", -70)
+    //     .attr("x", 20)
+    //     .attr("dy", "1em");
 
 }
 
