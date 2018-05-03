@@ -15,6 +15,8 @@ from MBTAriderSegmentation.config import *
 
 class Segmentation:
     """
+    Class to do rider segmentatin using hierarchical vs. non-hierarchical model. 
+    The clustering methods that are currently implemented are kmeans and LDA.
     """
     def __init__(self, w_time=None, start_month='1701', duration=1, random_state=RANDOM_STATE, max_iter=MAX_ITER, tol=TOL):
         self.random_state = random_state
@@ -95,6 +97,14 @@ class Segmentation:
     # Helper function for segmentation
     ###############################################
     def __apply_clustering_algorithm(self, features, model, n_clusters_list=[2, 3, 4, 5]):
+        """
+        INPUT:
+            features: df of features to cluster
+            model: Kmeans or LDA model
+            n_clusters_list: a list of number of clusters used for the clustering algorithm
+        OUTPUT:
+            cluster_result: clustering results of the best number of clusters from the CH-index
+        """
         cluster_labels_list = []
         cluster_scores = []
 
@@ -124,14 +134,24 @@ class Segmentation:
         return cluster_result
 
     def __get_cluster_score(self, features, cluster_labels):
+        """
+        Function to get the CH-index that shows how good the clustring result is.
+        INPUT:
+            features: df of features to cluster
+            cluster_labels: predicted features
+        OUTPUT:
+            score: CH-index for the current clustering results
+        """
         score = calinski_harabaz_score(features, cluster_labels)
         return score
 
     def __initial_rider_segmentation(self, hierarchical=False):
         '''
         Function to perform initial rider segmentation
-            If sequential is True, perform Kmeans
+            If sequential is True, perform Kmeans on weekday_vs_weekend_feats and purchase_feats
             Otherwise, simply rename "group_by_frequency" to "initial_cluster"
+        INPUT:
+            hierarchical: boolean value True or False
         '''
         # assign initial cluster based trip frequency
         print("assigning initial clusters")
@@ -168,6 +188,18 @@ class Segmentation:
 
 
     def __final_rider_segmentation(self, model, features, n_clusters_list=[2, 3, 4, 5], hierarchical=False):
+        '''
+        Function to perform final rider segmentation
+            If sequential is True, perform further clustering on temporal (168 hrs) and geo features
+            Otherwise, perform clustering on temporal (168 hours), geo and ticket purchasing features
+        INPUT:
+            model: K-means or LDA model
+            features: features to perform final clustring
+            n_clusters_list: a list of number of clusters used for the clustering algorithm
+            hierarchical: boolean value True or False
+        OUTPUT:
+            results: final cluster labels
+        ''' 
         df = features.copy()
         # add a column
         df['final_cluster'] = np.nan
@@ -223,6 +255,11 @@ class Segmentation:
         return results
 
     def get_rider_segmentation(self, hierarchical=False):
+        """
+        Main function to do rider segmentation using hier or non-hier models and save results to local.
+        INPUT:
+            hierarchical: boolean value True or False
+        """
         if hierarchical:
             n_clusters_list = [2, 3, 4]
         else:
