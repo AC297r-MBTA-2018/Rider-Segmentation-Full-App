@@ -330,11 +330,11 @@ def get_frontend_data(backend_data):
     return frontend_data
 
 # view = 'non-hierarchical'
-# start_month = '1710'
+# start_month = '1711'
+# algorithm = 'lda'
+# filename = 'non-hierarchical_1711_1_0_lda.json'
 # duration = '1'
 # time_weight = '0'
-# algorithm = 'kmeans'
-# filename = 'non-hierarchical_1710_kmeans.json'
 #
 # backend_data = get_backend_data(view=view, start_month=start_month, duration=duration,
 #                                 time_weight=time_weight, algorithm=algorithm)
