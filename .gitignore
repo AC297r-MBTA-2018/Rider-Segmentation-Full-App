@@ -1,8 +1,12 @@
+_site/
+.sass-cache/
+.jekyll-metadata
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+*__pycache__/
 *.py[cod]
+*.ipynb_checkpoints/
 
 # C extensions
 *.so
@@ -75,3 +79,4 @@ target/
 
 # Jupyter NB Checkpoints
 .ipynb_checkpoints/
+

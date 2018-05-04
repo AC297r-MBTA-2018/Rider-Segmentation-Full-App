@@ -8,10 +8,9 @@ from MBTAriderSegmentation.config import *
 
 class DataLoader:
     """
-    NOTE:
-        missing values in fareprod are filled with 'N/A' string
+    Note: missing values in fareprod are filled with N/A string
     This class merges afc_odx, fareprod, and stops data for feature extraction in the next step.
-    	It is wrapped in Class FeatureExtractor. 
+    It is wrapped in Class FeatureExtractor.
     """
     def __init__(self, start_month, duration):
         # initialize attributes
@@ -36,12 +35,12 @@ class DataLoader:
         self.validation_movementtype = [7, 20]
 
     def load(self):
-    	"""
-    	INPUT:
-    		None
-    	OUTPUT:
-    		self.df: a df merged with afd_odx, stops and fareprod for feature extraction in the next step
-    	"""
+        """
+        INPUT:
+            None
+        OUTPUT:
+            self.df: a df merged with afd_odx, stops and fareprod for feature extraction in the next step
+        """
         self.df = pd.DataFrame()
         parse_dates = ['trxtime']
 
@@ -90,9 +89,9 @@ class FeatureExtractor:
         """
         Function to extract rider level temporal patterns
         INTPUT:
-        	None
+            None
         OUTPUT:
-        	df_rider_temporal_count: a df of rider level temporal patterns
+            df_rider_temporal_count: a df of rider level temporal patterns
         """
         # extract hour and day of week
         self.df_transaction['hour'] = self.df_transaction['trxtime'].apply(lambda x: x.hour)
@@ -166,9 +165,9 @@ class FeatureExtractor:
         """
         Function to extract rider level geographical patterns
         INPUT:
-        	None
+            None
         OUTPUT:
-        	df_rider_geo_count: a df of rider level grographical patterns
+            df_rider_geo_count: a df of rider level grographical patterns
         """
         # take onehot encoding of zipcodes
         onehot = pd.get_dummies(self.df_transaction['zipcode'], prefix='zipcode')
@@ -186,9 +185,9 @@ class FeatureExtractor:
         """
         Function to extract one purchasing feature
         INPUT:
-        	feature: an item in self.purchase_features list
+            feature: an item in self.purchase_features list
         OUTPUT:
-        	df_onehot_count: a df of one purchasing feature
+            df_onehot_count: a df of one purchasing feature
         """
         # take onehot encoding of the purchasing feature columns
         onehot = pd.get_dummies(self.df_transaction[feature], prefix=feature)
@@ -205,9 +204,9 @@ class FeatureExtractor:
         """
         Function to combine a list of rider level purchasing features
         INPUT:
-        	None
+            None
         OUTPUT:
-        	df_purchase_count: a df of rider level purchasing features
+            df_purchase_count: a df of rider level purchasing features
         """
         list_df_purchase_count = []
 
