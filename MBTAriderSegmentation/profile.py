@@ -324,6 +324,10 @@ class ClusterProfiler:
             cluster_features: A dataframe containing cluster-level pattern-of-use features
                 and additional cluster info such as cluster size
         """
+
+        wkday_24_cols = ['wkday_24_' + str(i) for i in range(1, 25)]
+        wkend_24_cols = ['wkend_24_' + str(i) for i in range(1, 25)]
+
         if by_cluster:
             # group by cluster and calculate cluster_size and cluster_avg_num_trips
             temp_df1 = riders.groupby(by=['cluster'])
@@ -332,10 +336,12 @@ class ClusterProfiler:
             temp_df2['cluster_size'] = temp_df1['total_num_trips'].count()
             temp_df2['cluster_avg_num_trips'] = temp_df2['total_num_trips'].div(temp_df2['cluster_size'], axis=0)
             temp_df2 = temp_df2.reset_index()
+            weekday = temp_df2[wkday_24_cols]
+            weekend = temp_df2[wkend_24_cols]
 
-            max_hr_modes = temp_df1.apply(lambda x: x[['max_wkday_24_1', 'max_wkday_24_2', 'max_wkend_24_1']].mode())
-            max_hr_idx = [i for i, x in enumerate(max_hr_modes.index) if x[1] == 0]
-            max_hr_modes = max_hr_modes.iloc[max_hr_idx].reset_index().drop(['cluster', 'level_1'], axis=1)
+            # max_hr_modes = temp_df1.apply(lambda x: x[['max_wkday_24_1', 'max_wkday_24_2', 'max_wkend_24_1']].mode())
+            # max_hr_idx = [i for i, x in enumerate(max_hr_modes.index) if x[1] == 0]
+            # max_hr_modes = max_hr_modes.iloc[max_hr_idx].reset_index().drop(['cluster', 'level_1'], axis=1)
 
         else:
             temp_df1 = riders.drop(['cluster'], axis=1)
@@ -344,7 +350,18 @@ class ClusterProfiler:
             temp_df2['cluster_size'] = len(temp_df1)
             temp_df2['cluster_avg_num_trips'] = temp_df2['total_num_trips'] / temp_df2['cluster_size']
             temp_df2 = temp_df2.reset_index().rename(index=int, columns={'index': 'cluster'})
-            max_hr_modes = (temp_df1[['max_wkday_24_1', 'max_wkday_24_2', 'max_wkend_24_1']].mode().loc[0,:].to_frame()).T
+            weekday = temp_df2[wkday_24_cols]
+            weekend = temp_df2[wkend_24_cols]
+
+            # max_hr_modes = (temp_df1[['max_wkday_24_1', 'max_wkday_24_2', 'max_wkend_24_1']].mode().loc[0,:].to_frame()).T
+
+        # get max_hr_modes
+        wkday_rank = weekday.apply(np.argsort, axis=1)
+        ranked_wkday_cols = weekday.columns.to_series()[wkday_rank.values[:,::-1][:,:2]]
+        max_hr_modes = pd.DataFrame()
+        max_hr_modes['max_wkday_24_1'] = pd.DataFrame(ranked_wkday_cols[:, 0])[0].apply(lambda x: int(str(x).split('_')[-1]))
+        max_hr_modes['max_wkday_24_2'] = pd.DataFrame(ranked_wkday_cols[:, 1])[0].apply(lambda x: int(str(x).split('_')[-1]))
+        max_hr_modes['max_wkend_24_1'] = weekend.idxmax(axis=1).apply(lambda x: int(x.split('_')[-1]))
 
         # loop through feature groups
         cluster_features = pd.DataFrame()
