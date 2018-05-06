@@ -1,9 +1,8 @@
 import time
 from MBTAriderSegmentation.config import *
-from MBTAriderSegmentation.visualization import Visualization
 from MBTAriderSegmentation.profile import ClusterProfiler
 
-# Cluter Profiler & Auto Report Generation
+# profile.py & report.py
 start_months = ['1612','1701','1702','1703','1704','1705','1706','1707','1708','1709','1710','1711']
 for start_month in start_months:
     print('Profiling month = {}...'.format(start_month))
@@ -22,10 +21,3 @@ for start_month in start_months:
     profiler = ClusterProfiler(start_month=start_month, duration=duration, hierarchical=True)
     profiler.extract_profile(algorithm='kmeans', by_cluster=False)
     print("[by_cluster = False] Profile time: ", time.time() - t0)
-
-# Visualization
-# start_month='1710'
-# duration=1
-# viz = Visualization(start_month=start_month, duration=duration)
-# viz.load_data(by_cluster=True, hierarchical=True, w_time=None, algorithm='lda')
-# print(viz.df)
