@@ -18,7 +18,7 @@ viz.visualize_clusters_2d()
 # plot temporal patterns
 viz.plot_all_hourly_patterns()
 
-# plot geographical patterns
+# generate geographical patterns as html files
 unique_clusters = list(viz.df['cluster'].unique())
 map_urls = []
 for cluster in unique_clusters:
