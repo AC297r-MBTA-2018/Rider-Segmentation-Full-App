@@ -2,15 +2,12 @@ import numpy as np
 import pandas as pd
 import os, sys
 
-# sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-# sys.path.append(os.path.abspath(__file__))
 from MBTAriderSegmentation.config import *
 
 class DataLoader:
     """
     Note: missing values in fareprod are filled with N/A string
-    This class merges afc_odx, fareprod, and stops data for feature extraction in the next step.
-    It is wrapped in Class FeatureExtractor.
+    This class merges afc_odx, fareprod, and stops data for feature extraction.
     """
     def __init__(self, start_month, duration):
         # initialize attributes
@@ -302,8 +299,3 @@ class FeatureExtractor:
                                       self.start_month + '_' + str(self.duration) + '.csv')
 
         return self.df_rider_features
-    # print(DATA_PATH)
-    # print(os.path.dirname(os.path.abspath(__file__)))
-    # print(os.path.abspath(__file__))
-    # # df = pd.read_csv(os.path.dirname(os.path.abspath(__file__))+'/data/cached_profiles/2017-Oct/overview_cluster_profiles_1710_1.csv')
-    # df = pd.read_csv('/data/cached_profiles/2017-Oct/overview_cluster_profiles_1710_1.csv')
