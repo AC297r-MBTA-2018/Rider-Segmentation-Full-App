@@ -69,7 +69,7 @@ class CensusFormatter:
         INPUT:
             raw_census_filepath: A string of file path to raw census data
         RETURN:
-            census: A formaated dataframe where data is represented in counts
+            census: A formatted dataframe where data is represented in counts
         """
         census = pd.read_excel(raw_census_filepath, skiprows=3,
                                names=CensusFormatter.new_col_names,

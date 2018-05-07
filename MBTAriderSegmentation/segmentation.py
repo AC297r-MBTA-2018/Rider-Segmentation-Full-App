@@ -15,7 +15,7 @@ from MBTAriderSegmentation.config import *
 
 class Segmentation:
     """
-    Class to do rider segmentatin using hierarchical vs. non-hierarchical model. 
+    Class to do rider segmentatin using hierarchical vs. non-hierarchical model.
     The clustering methods that are currently implemented are kmeans and LDA.
     """
     def __init__(self, w_time=None, start_month='1701', duration=1, random_state=RANDOM_STATE, max_iter=MAX_ITER, tol=TOL):
@@ -148,7 +148,7 @@ class Segmentation:
     def __initial_rider_segmentation(self, hierarchical=False):
         '''
         Function to perform initial rider segmentation
-            If sequential is True, perform Kmeans on weekday_vs_weekend_feats and purchase_feats
+            If hierarchical is True, perform Kmeans on weekday_vs_weekend_feats and purchase_feats
             Otherwise, simply rename "group_by_frequency" to "initial_cluster"
         INPUT:
             hierarchical: boolean value True or False
@@ -190,7 +190,7 @@ class Segmentation:
     def __final_rider_segmentation(self, model, features, n_clusters_list=[2, 3, 4, 5], hierarchical=False):
         '''
         Function to perform final rider segmentation
-            If sequential is True, perform further clustering on temporal (168 hrs) and geo features
+            If hierarchical is True, perform further clustering on temporal (168 hrs) and geo features
             Otherwise, perform clustering on temporal (168 hours), geo and ticket purchasing features
         INPUT:
             model: K-means or LDA model
@@ -199,7 +199,7 @@ class Segmentation:
             hierarchical: boolean value True or False
         OUTPUT:
             results: final cluster labels
-        ''' 
+        '''
         df = features.copy()
         # add a column
         df['final_cluster'] = np.nan
