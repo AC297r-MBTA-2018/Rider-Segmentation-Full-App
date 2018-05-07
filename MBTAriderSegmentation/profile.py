@@ -166,7 +166,7 @@ class CensusFormatter:
         INPUT:
             filename: A string of file name to save, required
             census_type: A string of which census type to save,
-                oprtions=['percents', 'counts', 'proportions'], default = 'proportions'
+                options=['percents', 'counts', 'proportions'], default = 'proportions'
         RETURN:
             None
         """
@@ -182,33 +182,33 @@ class CensusFormatter:
     def get_census_in_counts(self):
         """
         DESCRIPTION:
-            Simple function that returns census_in_count
+            Simple function that returns census_in_counts
         INPUT:
             None
         RETURN:
-            census_in_count: A dataframe where data is in counts
+            census_in_counts: A dataframe where data is in counts
         """
         return self.census_in_counts
 
     def get_census_in_percents(self):
         """
         DESCRIPTION:
-            Simple function that returns census_in_percent
+            Simple function that returns census_in_percents
         INPUT:
             None
         RETURN:
-            census_in_percent: A dataframe where data is in percentages
+            census_in_percents: A dataframe where data is in percentages
         """
         return self.census_in_percents
 
     def get_census_in_proportions(self):
         """
         DESCRIPTION:
-            Simple function that returns census_in_percent
+            Simple function that returns census_in_proportions
         INPUT:
             None
         RETURN:
-            census_in_percent: A dataframe where data is in properties
+            census_in_proportions: A dataframe where data is in properties
         """
         return self.census_in_proportions
 
@@ -388,13 +388,13 @@ class ClusterProfiler:
             Function to summarize, by cluster, demographics distribution by its geo distribution.
             The approach is that for each cluster, we take its geo-pattern as a probability
             distribution over zipcodes (i.e. if cluster 1's zipcode_02142 column = 0.002, then
-            0.002 is the probability/weight for zipcode 02142), and calcualte expected
-            demographics distribution using zipcode probabilities. In other words, we calculate
-            E = sum over i of x_i*p(x_i) where x is a vector representing demographics data in
-            zipcode i and p(x_i) is the probability of zipcode i.
+            0.002 is the probability/weight for zipcode 02142), take the softmax transform for
+            this geo pattern probability and calcualte expected demographics distribution.
+            In other words, we calculate E = sum over i of x_i*p(x_i) where x is a vector representing
+            demographics data in zipcode i and p(x_i) is the softmax probability of zipcode i.
         INPUT:
             cluster_features: A dataframe containing cluster-level pattern-of-use features.
-                This is the resulting dataframe from __get_cluster_features(), required.
+                This is the resulting dataframe from _summarize_features(), required.
         RETURN:
             cluster_demographics: A dataframe containing cluster assignment plus
                 expected cluster demographics distribution. The distribution is described in
