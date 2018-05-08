@@ -121,7 +121,7 @@ TemporalLegend.prototype.updateVis = function() {
         .attr("x", -255)
         .attr("y", 13)
         .style("text-anchor", "middle")
-        .text("Average # of trips");
+        .text("% of Traffic");
 
     //Set scale for x-axis
     vis.xScale = d3.scaleLinear()
